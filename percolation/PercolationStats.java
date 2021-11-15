@@ -8,7 +8,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private static double confLevel95;
+    private static double confLevel95 = 1.96;
     private final double[] trialRecord;
     private final int trials;
 
@@ -18,7 +18,6 @@ public class PercolationStats {
             throw new IllegalArgumentException();
         trialRecord = new double[trials];
         this.trials = trials;
-        confLevel95 = 1.96;
         double size = (double) (n * n);
         for (int i = 0; i < trials; i++) {
             Percolation p = new Percolation(n);
