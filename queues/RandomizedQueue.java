@@ -121,14 +121,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class RandQueIterator implements Iterator<Item> {
+        private Item[] items;
         private int[] randInd;
         private int currInd;
 
         public RandQueIterator() {
-            randInd = new int[randqueSize];
             currInd = 0;
+            Node curr = first;
+            items = (Item[]) new Object[randqueSize];
+            randInd = new int[randqueSize];
             for (int i = 0; i < randqueSize; i++) {
                 randInd[i] = i;
+                items[i] = curr.item;
+                curr = curr.next;
             }
             StdRandom.shuffle(randInd);
         }
@@ -142,16 +147,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
-            if (currInd == randqueSize)
-                throw new NoSuchElementException();
-            Node curr = first;
-            int target = randInd[currInd];
-            while (target > 0) {
-                curr = curr.next;
-                target -= 1;
-            }
-            currInd += 1;
-            return curr.item;
+            if (!hasNext()) throw new NoSuchElementException();
+            return items[randInd[currInd++]];
+
         }
     }
 
@@ -164,15 +162,21 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             String s = in.readString();
 
             rq.enqueue(s);
-            System.out.println(rq.size());
+            // System.out.println(rq.size());
         }
 
         for (String s : rq) {
             System.out.print(s);
         }
 
-        while (!rq.isEmpty()) {
-            System.out.println(rq.dequeue());
+        System.out.println();
+
+        for (String s : rq) {
+            for (String t : rq) {
+                System.out.print(t);
+            }
+            System.out.println(s);
         }
+
     }
 }
